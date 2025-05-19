@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-T">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Audio Recordings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font - Inter */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Additional custom styles if needed */
+        .audio-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .audio-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-slate-900 to-slate-700 text-gray-100 min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
+
+    <div class="w-full max-w-3xl bg-slate-800 shadow-2xl rounded-xl p-6 sm:p-10">
+        <header class="mb-8 text-center">
+            <h1 class="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 mb-2">
+                My Audio Recordings
+            </h1>
+            <p class="text-lg text-slate-400">
+                Listen to my latest audio clips and recordings.
+            </p>
+        </header>
+
+        <main id="audioList" class="space-y-8">
+            <article class="audio-card bg-slate-700/50 p-5 sm:p-6 rounded-lg shadow-lg backdrop-blur-sm border border-slate-600">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
+                    <h2 class="text-2xl font-semibold text-purple-300">First Recording Title</h2>
+                    <p class="text-sm text-slate-400 mt-1 sm:mt-0">May 19, 2025</p>
+                </div>
+                <p class="text-slate-300 mb-4 text-sm">
+                    This is a description of the first audio recording. You can write a bit about what it contains here.
+                </p>
+                <audio controls class="w-full rounded-md shadow-inner bg-slate-600">
+                    <source src="audio/sample1.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element. Try downloading it: <a href="audio/sample1.mp3" class="text-purple-400 hover:underline">Download MP3</a>
+                </audio>
+            </article>
+
+            <article class="audio-card bg-slate-700/50 p-5 sm:p-6 rounded-lg shadow-lg backdrop-blur-sm border border-slate-600">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
+                    <h2 class="text-2xl font-semibold text-purple-300">Another Cool Sound</h2>
+                    <p class="text-sm text-slate-400 mt-1 sm:mt-0">May 20, 2025</p>
+                </div>
+                <p class="text-slate-300 mb-4 text-sm">
+                    Here's another clip. Maybe this one is a song idea or a voice memo.
+                </p>
+                <audio controls class="w-full rounded-md shadow-inner bg-slate-600">
+                    <source src="audio/sample2.m4a" type="audio/mp4">
+                    Your browser does not support the audio element. Try downloading it: <a href="audio/sample2.m4a" class="text-purple-400 hover:underline">Download M4A</a>
+                </audio>
+            </article>
+
+            </main>
+
+        <footer class="mt-10 pt-6 border-t border-slate-700 text-center">
+            <p class="text-sm text-slate-500">
+                &copy; <span id="currentYear"></span> Your Name. All rights reserved.
+            </p>
+            <p class="text-xs text-slate-600 mt-1">
+                Powered by GitHub Pages
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Simple error handling for audio elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const audioElements = document.querySelectorAll('audio');
+            audioElements.forEach(audio => {
+                audio.addEventListener('error', (e) => {
+                    console.error("Error loading audio:", audio.currentSrc, e);
+                    // You could display a user-friendly message next to the player
+                    const errorDisplay = document.createElement('p');
+                    errorDisplay.textContent = "Audio could not be loaded. Please check the file path.";
+                    errorDisplay.className = "text-red-400 text-xs mt-1";
+                    // Prevent adding multiple error messages
+                    if (!audio.parentNode.querySelector('.text-red-400')) {
+                        audio.parentNode.insertBefore(errorDisplay, audio.nextSibling);
+                    }
+                });
+
+                // Check if source is empty or placeholder
+                const sourceElement = audio.querySelector('source');
+                if (!sourceElement || sourceElement.getAttribute('src') === '' || sourceElement.getAttribute('src').includes('sample1.mp3') || sourceElement.getAttribute('src').includes('sample2.m4a')) {
+                    // If it's a sample or empty, you might want to indicate it's placeholder content.
+                    // For now, we rely on the user replacing these.
+                    // You could disable the player or show a message if it's still a sample path.
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
